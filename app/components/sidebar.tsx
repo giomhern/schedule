@@ -56,7 +56,7 @@ const Sidebar = () => {
 
 const Title = ({ open }: { open: any }) => {
   return (
-    <div className="mb-3 border-b border-slate-100 pb-3">
+    <div className="mb-3 border-b border-slate-100 py-3">
       <div className="flex cursor-pointer items-center justify-between rounded-md transition-colors hover:bg-slate-100">
         <div className="flex items-center gap-2">
           <Logo />
