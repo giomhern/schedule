@@ -13,7 +13,7 @@ import { motion } from "motion/react";
 
 const Sidebar = () => {
   const [open, setOpen] = useState(true);
-  const [selected, setSelected] = useState("Dashboard");
+  const [selected, setSelected] = useState("Events");
 
   return (
     <motion.nav
@@ -26,13 +26,6 @@ const Sidebar = () => {
       <Title open={open} />
 
       <div className="space-y-1">
-        <Option
-          Icon={FiHome}
-          title="Dashboard"
-          selected={selected}
-          setSelected={setSelected}
-          open={open}
-        />
         <Option
           Icon={FiCalendar}
           title="Events"
