@@ -1,15 +1,13 @@
 "use client";
 import { useState } from "react";
 import {
-  FiBarChart,
   FiChevronDown,
   FiChevronsRight,
   FiDollarSign,
   FiHome,
   FiMonitor,
-  FiShoppingCart,
-  FiTag,
-  FiUsers,
+  FiCalendar, 
+  FiClipboard
 } from "react-icons/fi";
 import { motion } from "motion/react";
 
@@ -36,14 +34,14 @@ const Sidebar = () => {
           open={open}
         />
         <Option
-          Icon={FiDollarSign}
+          Icon={FiCalendar}
           title="Events"
           selected={selected}
           setSelected={setSelected}
           open={open}
         />
         <Option
-          Icon={FiMonitor}
+          Icon={FiClipboard}
           title="Tasks"
           selected={selected}
           setSelected={setSelected}
@@ -69,8 +67,8 @@ const Title = ({ open }: { open: any }) => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.125 }}
             >
-              <span className="block text-xs font-semibold">Giovanni Maya</span>
-              <span className="block text-xs text-slate-500">Admin</span>
+              <span className="block text-sm font-semibold">Giovanni Maya</span>
+              <span className="block text-sm text-slate-500">Admin</span>
             </motion.div>
           )}
         </div>
@@ -84,9 +82,9 @@ const Logo = () => {
   return (
     <motion.div
       layout
-      className="grid size-10 shrink-0 place-content-center rounded-md bg-indigo-600"
+      className="grid size-10 shrink-0 place-content-center rounded-full bg-indigo-500"
     >
-      <svg
+      {/* <svg
         width="24"
         height="auto"
         viewBox="0 0 50 39"
@@ -102,7 +100,7 @@ const Logo = () => {
           d="M17.4224 27.102L11.4192 36H33.5008L49 13.0271H32.7024L23.2064 27.102H17.4224Z"
           stopColor="#000000"
         ></path>
-      </svg>
+      </svg> */}
     </motion.div>
   );
 };
@@ -126,7 +124,7 @@ const Option = ({ Icon, title, selected, setSelected, open}: any) => {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.125 }}
-          className="text-xs font-medium"
+          className="text-sm font-medium"
         >
           {title}
         </motion.span>
@@ -140,7 +138,7 @@ const ToggleClose = ({ open, setOpen }: any) => {
     <motion.button
       layout
       onClick={() => setOpen((pv: any) => !pv)}
-      className="absolute bottom-0 left-0 right-0 border-t border-slate-300 transition-colors hover:bg-slate-100"
+      className="absolute bottom-0 left-0 right-0 border-t border-slate-100 transition-colors hover:bg-slate-100"
     >
       <div className="flex items-center p-2">
         <motion.div
@@ -157,7 +155,7 @@ const ToggleClose = ({ open, setOpen }: any) => {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.125 }}
-            className="text-xs font-medium"
+            className="text-sm font-medium"
           >
             Hide
           </motion.span>
