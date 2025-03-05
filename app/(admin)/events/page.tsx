@@ -4,7 +4,7 @@ import useModal from "@/app/hooks/use-modal";
 import { AnimatePresence, motion } from "motion/react";
 import { FiPlus, FiX } from "react-icons/fi";
 
-const Dashboard = () => {
+const Events = () => {
   const { modalOpen, close, open } = useModal();
 
   const modalVariants = {
@@ -39,8 +39,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="bg-white flex">
-      <Sidebar />
+    <div className="bg-white">
       <div className="p-10 flex-grow">
         <div className="mb-5 pb-5 w-full border-b border-slate-100">
           <h1 className="text-xl font-medium">Events</h1>
@@ -106,4 +105,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Events;
