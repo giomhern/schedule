@@ -3,17 +3,22 @@ import { useState } from "react";
 import {
   FiChevronDown,
   FiChevronsRight,
-  FiDollarSign,
-  FiHome,
-  FiMonitor,
-  FiCalendar, 
-  FiClipboard
+  FiCalendar,
+  FiClipboard,
 } from "react-icons/fi";
 import { motion } from "motion/react";
+import { usePathname, useRouter } from "next/navigation";
+import Option from "./option";
+
+const navLinks = [
+  { href: "/events", label: "Events", icon: FiCalendar },
+  { href: "/tasks", label: "Tasks", icon: FiClipboard },
+];
 
 const Sidebar = () => {
   const [open, setOpen] = useState(true);
   const [selected, setSelected] = useState("Events");
+  const pathname = usePathname();
 
   return (
     <motion.nav
@@ -26,9 +31,10 @@ const Sidebar = () => {
       <Title open={open} />
 
       <div className="space-y-1">
-        <Option
+        {/* <Option
           Icon={FiCalendar}
           title="Events"
+          path={path}
           selected={selected}
           setSelected={setSelected}
           open={open}
@@ -36,10 +42,24 @@ const Sidebar = () => {
         <Option
           Icon={FiClipboard}
           title="Tasks"
+          path={path}
           selected={selected}
           setSelected={setSelected}
           open={open}
-        />
+        /> */}
+
+        {navLinks.map((link, id) => (
+          <Option
+            key={id}
+            Icon={link.icon}
+            title={link.label}
+            setSelected={setSelected}
+            selected={selected}
+            open={open}
+            href={link.href}
+            pathname={pathname}
+          />
+        ))}
       </div>
 
       <ToggleClose open={open} setOpen={setOpen} />
@@ -76,39 +96,10 @@ const Logo = () => {
     <motion.div
       layout
       className="grid size-10 shrink-0 place-content-center rounded-full bg-indigo-500"
-    >
-    </motion.div>
+    ></motion.div>
   );
 };
 
-const Option = ({ Icon, title, selected, setSelected, open}: any) => {
-  return (
-    <motion.button
-      layout
-      onClick={() => setSelected(title)}
-      style={{ borderRadius: 10 }}
-      className={`relative flex h-10 w-full items-center rounded-md transition-colors ${selected === title ? "bg-indigo-100 text-indigo-800" : "text-slate-500 hover:bg-slate-100"}`}
-    >
-      <motion.div
-        layout
-        className="grid h-full w-10 place-content-center text-lg"
-      >
-        <Icon />
-      </motion.div>
-      {open && (
-        <motion.span
-          layout
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.125 }}
-          className="text-sm font-medium"
-        >
-          {title}
-        </motion.span>
-      )}
-    </motion.button>
-  );
-};
 
 const ToggleClose = ({ open, setOpen }: any) => {
   return (
@@ -141,6 +132,5 @@ const ToggleClose = ({ open, setOpen }: any) => {
     </motion.button>
   );
 };
-
 
 export default Sidebar;
