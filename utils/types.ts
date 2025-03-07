@@ -17,4 +17,9 @@ export type FormFieldProps = {
   valueAsNumber?: boolean;
 };
 
-export type ValidFieldNames = "title" | "description" | "location" | "event_date" | "slug";
+export type ValidFieldNames =
+  | "title"
+  | "description"
+  | "location"
+  | "event_date"
+  | "slug";
