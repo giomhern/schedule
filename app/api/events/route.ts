@@ -15,7 +15,7 @@ export async function POST(req: Request, res: Response) {
   const body = await req.json();
   const { title, description, location, event_date, slug } = body;
 
-  const query = `INSERT INTO events(title, description, location, event_date, slug)`;
+  const query = `INSERT INTO events(title, description, location, event_date, slug) VALUES (?, ?, ?, ?, ?)`;
   const values = [title, description, location, event_date, slug];
 
   let status, respBody;
@@ -36,7 +36,7 @@ export async function POST(req: Request, res: Response) {
 }
 
 export async function GET(req: Request, res: Response) {
-  const query = `SELECT * FROM articles`;
+  const query = `SELECT * FROM events`;
 
   let status, body;
 
