@@ -6,12 +6,12 @@ export const migrate = () => {
       `
             CREATE TABLE events (
                 id SERIAL PRIMARY KEY,
-                title VARCHAR(255) NOT NULL,
+                title VARCHAR(255),
                 description TEXT,
                 location VARCHAR(255),
-                event_date TIMESTAMP NOT NULL,
+                event_date TEXT,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
-                slug TEXT UNIQUE NOT NULL
+                slug TEXT
             );
             `
     ),
