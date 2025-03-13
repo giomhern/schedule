@@ -12,20 +12,19 @@ const Form = ({ close }: any) => {
   } = useForm<EventFormData>();
 
   const submitForm = async (data: EventFormData) => {
-    const form_w_default = { ...data, event_date: "June 7, 2025", slug: "new" };
-    console.log("SUCCESS", form_w_default);
-
+    const form_w_default = {
+      ...data,
+      event_date: "June 7, 2025",
+      slug: "gardening-meetup",
+    };
     try {
-      const response = await fetch("/api/events", {
+      await fetch("/api/events", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(form_w_default),
       });
-
-      const responseData = response.json();
-      console.log(responseData);
     } catch (err) {
       console.error("Failed to submit form with the following error: ", err);
     }
