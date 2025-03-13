@@ -1,4 +1,4 @@
-import Sidebar from "@/app/components/sidebar";
+"use client"
 
 const Tasks = () => {
   return (

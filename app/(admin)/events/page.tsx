@@ -1,105 +1,91 @@
 "use client";
-import Sidebar from "@/app/components/sidebar";
+
+import Modal from "@/app/components/modal";
 import useModal from "@/app/hooks/use-modal";
+import { EventFormData } from "@/utils/types";
 import { AnimatePresence, motion } from "motion/react";
-import { FiPlus, FiX } from "react-icons/fi";
+import { useEffect, useState } from "react";
+import { FiChevronDown, FiClock, FiMapPin, FiPlus } from "react-icons/fi";
 
 const Events = () => {
   const { modalOpen, close, open } = useModal();
-
-  const modalVariants = {
-    hidden: {
-      scale: 0.8,
-      opacity: 0,
-      y: 20,
-    },
-    visible: {
-      scale: 1,
-      opacity: 1,
-      y: 0,
-      transition: {
-        type: "spring",
-        damping: 25,
-        stiffness: 300,
-      },
-    },
-    exit: {
-      scale: 0.8,
-      opacity: 0,
-      y: 20,
-      transition: {
-        duration: 0.2,
-      },
-    },
-  };
-
-  const backdropVariants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1 },
-  };
+  const [events, setEvents] = useState<EventFormData[]>([]);
+  useEffect(() => {
+    async function fetchEvents() {
+      try {
+        const response = await fetch("/api/events");
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        setEvents(data.slice(0, 1));
+      } catch (err) {
+        console.error("Error fetching events: ", err);
+      }
+    }
+    fetchEvents();
+  }, []);
 
   return (
-    <div className="bg-white">
-      <div className="p-10 flex-grow">
-        <div className="mb-5 pb-5 w-full border-b border-slate-100">
+    <div className="bg-white flex-grow">
+      <div className="p-10">
+        <header className="mb-5 pb-5 w-full border-b border-slate-200">
           <h1 className="text-xl font-medium">Events</h1>
-        </div>
-        <div className="flex gap-3">
-          <button
+        </header>
+        <div className="flex gap-2 justify-between w-full pb-5">
+          <motion.button
             onClick={open}
-            className="px-4 py-1 bg-indigo-500 text-white text-sm flex items-center
-           justify-center rounded-sm gap-2 hover:cursor-pointer"
+            whileHover={{ scale: 1.05 }}
+            className="px-4 py-1 bg-indigo-500 text-white text-sm flex items-center font-medium
+           justify-center rounded-sm gap-2 hover:cursor-pointer shadow-2xs"
           >
             <FiPlus />
             New Event
-          </button>
+          </motion.button>
         </div>
 
         <AnimatePresence>
-          {modalOpen && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center">
-              {/* Backdrop */}
-              <motion.div
-                className="fixed inset-0 bg-black/10 backdrop-blur-sm"
-                initial="hidden"
-                animate="visible"
-                exit="hidden"
-                variants={backdropVariants}
-                onClick={close}
-                transition={{ duration: 0.2 }}
-              />
+          {modalOpen && <Modal close={close} />}
+        </AnimatePresence>
 
-              {/* Modal */}
-              <motion.div
-                className="relative z-10 w-full max-w-md rounded-lg bg-white p-6 shadow-lg dark:bg-gray-800"
-                initial="hidden"
-                animate="visible"
-                exit="exit"
-                variants={modalVariants}
-              >
-                {/* Modal content */}
-                <div className="space-y-3">
-                  <h2 className="text-xl font-medium">New Event</h2>
-                  <p className="text-muted-foreground text-sm">
-                    Enter the details of your event here! 
-                  </p>
-
-                  {/* Placeholder for form - replace with your actual form */}
-                  <div className="rounded-md border border-dashed border-gray-300 p-8 text-center dark:border-gray-600">
-                    <p className="text-sm text-muted-foreground">
-                      Your form goes here
-                    </p>
+        <main className="space-y-3 w-full">
+          {events &&
+            events.map((event, id) => {
+              return (
+                <div key={id} className="flex gap-2 w-full">
+                  <div className="bg-slate-100 rounded-md pl-4 py-3 w-32 min-w-fit">
+                    <h2 className="text-sm font-medium">Dec 30</h2>
+                    <h4 className="text-xs text-slate-500 font-medium">
+                      Saturday
+                    </h4>
                   </div>
 
-                  <div className="flex justify-end gap-2">
-                    <button onClick={close} className="px-4 py-2 text-red-700">Cancel</button>
-                    <button onClick={close} className="bg-indigo-500 px-4 py-2 text-white rounded-md">Submit</button>
+                  <div className="flex gap-3 px-2 py-4 border border-slate-200 rounded-md flex-grow">
+                    <div className="w-1 h-full bg-indigo-500 rounded-md"></div>
+                    <div>
+                      <h1 className="text-sm font-medium mb-1">
+                        {event.title}
+                      </h1>
+                      <div className="flex justify-center items-center gap-3">
+                        <div className="flex gap-1 items-center justify-center">
+                          <div className="w-4 h-4 rounded-full border border-indigo-500 bg-indigo-500"></div>
+                          <p className="text-xs slate-200">Giovanni Maya</p>
+                        </div>
+                        <div className="flex gap-1 items-center justify-center">
+                          <FiClock className="w-3 h-3" />
+                          <p className="text-xs slate-200">10:00 AM</p>
+                        </div>
+                        <div className="flex gap-1 items-center justify-center">
+                          <FiMapPin className="w-3 h-3" />
+                          <p className="text-xs slate-200">{event.location}</p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </motion.div>
-            </div>
-          )}
-        </AnimatePresence>
+              );
+            })}
+        </main>
       </div>
     </div>
   );
