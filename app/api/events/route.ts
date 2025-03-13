@@ -1,4 +1,4 @@
-import { apiPost } from "../database";
+import { apiGet, apiPost } from "../database";
 
 /*
 --- Database schema for HTTP requests ---
@@ -30,7 +30,30 @@ export async function POST(req: Request, res: Response) {
       respBody = err;
     });
 
-    return Response.json(respBody, {
-        status
-    })
+  return Response.json(respBody, {
+    status,
+  });
+}
+
+export async function GET(req: Request, res: Response) {
+  const query = `SELECT * FROM articles`;
+
+  let status, body;
+
+  try {
+    await apiGet(query)
+      .then((res) => {
+        status = 200;
+        body = res;
+      })
+      .catch((err: Error) => {
+        status = 400;
+        body: {
+          error: err;
+        }
+      });
+    return Response.json(body, {
+      status,
+    });
+  } catch (err: any) {}
 }
