@@ -1,4 +1,5 @@
 import { motion } from "motion/react";
+import Form from "./form";
 
 const modalVariants = {
   hidden: {
@@ -39,29 +40,7 @@ const Modal = ({ close }: any) => {
 
       {/* Modal Content*/}
       <ModalContent>
-        <div className="space-y-3">
-          <h2 className="text-xl font-medium">New Event</h2>
-          <p className="text-muted-foreground text-sm">
-            Enter the details of your event here!
-          </p>
-
-          {/* Placeholder for form - replace with your actual form */}
-          <div className="rounded-md border border-dashed border-gray-300 p-8 text-center dark:border-gray-600">
-            <p className="text-sm text-muted-foreground">Your form goes here</p>
-          </div>
-
-          <div className="flex justify-end gap-2">
-            <button onClick={close} className="px-4 py-2 text-red-700">
-              Cancel
-            </button>
-            <button
-              onClick={close}
-              className="bg-indigo-500 px-4 py-2 text-white rounded-md"
-            >
-              Submit
-            </button>
-          </div>
-        </div>
+        <Form close={close} />
       </ModalContent>
     </div>
   );
