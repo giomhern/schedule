@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
-import { EventFormData } from "@/utils/types";
+import { EventFormData, EventSchema } from "@/utils/types";
 import FormField from "./form-field";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const Form = ({ close }: any) => {
   const {
@@ -9,7 +10,9 @@ const Form = ({ close }: any) => {
     formState: { errors },
     setError,
     reset,
-  } = useForm<EventFormData>();
+  } = useForm<EventFormData>({
+    resolver: zodResolver(EventSchema)
+  });
 
   const submitForm = async (data: EventFormData) => {
     const form_w_default = {
