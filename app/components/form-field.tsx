@@ -27,7 +27,12 @@ const FormField: React.FC<FormFieldProps> = ({
         />
       )}
       {error && (
-        <motion.span className="py-2 text-xs text-red-400 font-medium">
+        <motion.span
+          initial={{ opacity: 0, y: -12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.125 }}
+          className="py-2 text-xs text-red-400 font-medium"
+        >
           {error.message}
         </motion.span>
       )}
