@@ -66,7 +66,7 @@ const Form = ({ close }: any) => {
             Cancel
           </button>
           <button
-            onClick={handleSubmit(submitForm)}
+            type="submit"
             className="text-sm font-medium text-white bg-indigo-500 px-4 py-2 rounded-sm shadow-xs hover:cursor-pointer"
           >
             Create event
