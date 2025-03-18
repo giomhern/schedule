@@ -70,7 +70,6 @@ const Form = ({ close }: any) => {
           </button>
           <button
             type="submit"
-            onClick={handleSubmit(submitForm)}
             className="text-sm font-medium text-white bg-indigo-500 px-4 py-2 rounded-sm shadow-xs hover:cursor-pointer"
           >
             Create event

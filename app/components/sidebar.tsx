@@ -11,8 +11,8 @@ import { usePathname, useRouter } from "next/navigation";
 import Option from "./option";
 
 const navLinks = [
-  { href: "/events", label: "Events", icon: FiCalendar },
-  { href: "/tasks", label: "Tasks", icon: FiClipboard },
+  { href: "/admin/events", label: "Events", icon: FiCalendar },
+  { href: "/admin/tasks", label: "Tasks", icon: FiClipboard },
 ];
 
 const Sidebar = () => {
