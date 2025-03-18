@@ -18,7 +18,7 @@ const Events = () => {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        setEvents(data.slice(0, 1));
+        setEvents(data);
       } catch (err) {
         console.error("Error fetching events: ", err);
       }
