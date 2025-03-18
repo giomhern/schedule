@@ -48,8 +48,8 @@ export async function GET(req: Request, res: Response) {
       })
       .catch((err: Error) => {
         status = 400;
-        body: {
-          error: err;
+        body = {
+          error: err
         }
       });
     return Response.json(body, {
