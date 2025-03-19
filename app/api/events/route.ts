@@ -13,10 +13,10 @@ slug TEXT UNIQUE NOT NULL
 
 export async function POST(req: Request, res: Response) {
   const body = await req.json();
-  const { title, description, location, event_date, slug } = body;
+  const { title, description, location, date, time, comments } = body;
 
-  const query = `INSERT INTO events(title, description, location, event_date, slug) VALUES (?, ?, ?, ?, ?)`;
-  const values = [title, description, location, event_date, slug];
+  const query = `INSERT INTO events(title, description, location, date, time, comments) VALUES (?, ?, ?, ?, ?, ?)`;
+  const values = [title, description, location, date, time, comments];
 
   let status, respBody;
 
