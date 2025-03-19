@@ -5,8 +5,9 @@ export type EventFormData = {
   title: string;
   description: string;
   location: string;
-  event_date?: string;
-  slug?: string;
+  date: string; // Format: YYYY-MM-DD
+  time: string; // Format: HH:MM
+  comments?: string; // Optional
 };
 
 export type FormFieldProps = {
@@ -22,13 +23,17 @@ export type ValidFieldNames =
   | "title"
   | "description"
   | "location"
-  | "event_date"
-  | "slug";
+  | "date"
+  | "time"
+  | "comments";
 
 export const EventSchema: ZodType<EventFormData> = z.object({
   title: z.string().min(1, { message: "Title cannot be empty." }),
   description: z.string().min(1, { message: "Description cannot be empty." }),
   location: z.string().min(1, { message: "Location cannot be empty." }),
-  event_date: z.string().min(1, { message: "Event date cannot be empty." }),
-  slug: z.string().min(1, { message: "Slug cannot be empty." }),
+  date: z.string()
+    .regex(/^\d{4}-\d{2}-\d{2}$/, { message: "Date must be in YYYY-MM-DD format." }),
+  time: z.string()
+    .regex(/^\d{2}:\d{2}$/, { message: "Time must be in HH:MM format." }),
+  comments: z.string().optional(),
 });
