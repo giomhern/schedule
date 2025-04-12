@@ -1,36 +1,19 @@
 "use client";
-
-import Modal from "@/app/components/modal";
-import useModal from "@/app/hooks/use-modal";
 import { EventFormData } from "@/utils/types";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState } from "react";
-import { FiChevronDown, FiClock, FiMapPin, FiPlus } from "react-icons/fi";
-import { colors } from "@/utils/colors";
-
-const formatDate = (dateString: string) => {
-  const dateObj = new Date(dateString);
-  return {
-    monthName: dateObj.toLocaleDateString("en-US", { month: "short" }),
-    dayNumber: dateObj.getDate(),
-    weekdayName: dateObj.toLocaleDateString("en-US", { weekday: "long" }),
-  };
-};
-
-const formatTime = (timeString: string) => {
-  const [hours, minutes] = timeString.split(":");
-  const dateObj = new Date();
-  dateObj.setHours(parseInt(hours), parseInt(minutes));
-  return dateObj.toLocaleTimeString("en-US", {
-    hour: "numeric",
-    minute: "2-digit",
-    hour12: true,
-  });
-};
+import { FiPlus } from "react-icons/fi";
+import Modal from "@/app/components/modal";
+import useModal from "@/app/hooks/use-modal";
+import CalendarEvent from "@/app/components/calendar-event";
+import FilterDropdown from "@/app/components/filter-dropdown";
 
 const Events = () => {
   const { modalOpen, close, open } = useModal();
   const [events, setEvents] = useState<EventFormData[]>([]);
+  const [filter, setFilter] = useState<"all" | "today" | "upcoming" | "past">(
+    "upcoming"
+  );
 
   useEffect(() => {
     async function fetchEvents() {
@@ -48,13 +31,30 @@ const Events = () => {
     fetchEvents();
   }, []);
 
+  const filteredEvents = events.filter((event) => {
+    const eventDate = new Date(event.date);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    switch (filter) {
+      case "today":
+        return eventDate.toDateString() === today.toDateString();
+      case "upcoming":
+        return eventDate > today;
+      case "past":
+        return eventDate < today;
+      default:
+        return true;
+    }
+  });
+
   return (
     <div className="bg-white flex-grow">
       <div className="p-10">
         <header className="mb-5 pb-5 w-full border-b border-slate-200">
           <h1 className="text-2xl font-medium">Events</h1>
         </header>
-        <div className="flex gap-2 justify-between w-full pb-5">
+        <div className="flex gap-2 justify-start w-full pb-5">
           <motion.button
             onClick={open}
             whileHover={{ scale: 1.05 }}
@@ -64,6 +64,7 @@ const Events = () => {
             <FiPlus />
             New Event
           </motion.button>
+          <FilterDropdown filter={filter} onFilterChange={setFilter} />
         </div>
 
         <AnimatePresence>
@@ -71,55 +72,9 @@ const Events = () => {
         </AnimatePresence>
 
         <main className="space-y-3 w-full">
-          {events &&
-            events.map((event, id) => {
-              const { monthName, dayNumber, weekdayName } = formatDate(
-                event.date
-              );
-              const formattedTime = formatTime(event.time);
-              const randomColor = colors[Math.floor(Math.random() * colors.length)];
-
-              return (
-                <div key={id} className="flex gap-2 w-full">
-                  <div className="bg-slate-100 rounded-md pl-4 py-3 w-32 min-w-fit">
-                    <h2 className="text-md font-medium">
-                      {monthName} {dayNumber}
-                    </h2>
-                    <h4 className="text-sm text-slate-500 font-medium">
-                      {weekdayName}
-                    </h4>
-                  </div>
-
-                  <div className="flex gap-3 px-2 py-4 border border-slate-200 rounded-md flex-grow">
-                  <div className={`w-1 h-full rounded-md ${randomColor}`}></div>
-                    <div>
-                      <h1 className="text-md font-medium mb-1">
-                        {event.title}
-                      </h1>
-                      <div className="flex justify-center items-center gap-3">
-                        {/* <div className="flex gap-1 items-center justify-center">
-                          <div className="w-4 h-4 rounded-full border border-indigo-500 bg-indigo-500"></div>
-                          <p className="text-xs text-slate-500">
-                            Giovanni Maya
-                          </p>
-                        </div> */}
-                        <div className="flex gap-1 items-center justify-center">
-                          <FiClock className="w-4 h-4" />
-                          <p className="text-sm text-slate-500">
-                            {formattedTime}
-                          </p>
-                        </div>
-                        <div className="flex gap-1 items-center justify-center">
-                          <FiMapPin className="w-4 h-4" />
-                          <p className="text-sm text-slate-500">
-                            {event.location}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              );
+          {filteredEvents &&
+            filteredEvents.map((event, id) => {
+              return <CalendarEvent key={id} event={event} />;
             })}
         </main>
       </div>
