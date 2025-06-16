@@ -1,5 +1,6 @@
 import { db } from "../../database";
 import { cookies } from "next/headers";
+import { generateToken } from "@/utils/auth.utils";
 
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -27,14 +28,10 @@ export async function POST(req: Request) {
           );
         }
 
-        const token = jwt.sign(
-          {
-            userId: user.id,
-            email: user.emailId,
-          },
-          process.env.JWT_SECRET,
-          { expiresIn: "24h" }
-        );
+        const token: string = generateToken({
+          userId: user.id,
+          email: user.emailId
+        });
 
         (await cookies()).set({
           name: "auth-token",
