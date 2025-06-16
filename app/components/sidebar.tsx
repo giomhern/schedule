@@ -11,7 +11,7 @@ import { usePathname, useRouter } from "next/navigation";
 import Option from "./option";
 
 const navLinks = [
-  { href: "/admin/events", label: "Events", icon: FiCalendar },
+  { href: "/admin", label: "Events", icon: FiCalendar },
   { href: "/admin/tasks", label: "Tasks", icon: FiClipboard },
 ];
 
@@ -31,23 +31,6 @@ const Sidebar = () => {
       <Title open={open} />
 
       <div className="space-y-1">
-        {/* <Option
-          Icon={FiCalendar}
-          title="Events"
-          path={path}
-          selected={selected}
-          setSelected={setSelected}
-          open={open}
-        />
-        <Option
-          Icon={FiClipboard}
-          title="Tasks"
-          path={path}
-          selected={selected}
-          setSelected={setSelected}
-          open={open}
-        /> */}
-
         {navLinks.map((link, id) => (
           <Option
             key={id}
@@ -70,36 +53,15 @@ const Sidebar = () => {
 const Title = ({ open }: { open: any }) => {
   return (
     <div className="mb-3 border-b border-slate-200 py-3">
-      <div className="flex cursor-pointer items-center justify-between rounded-md transition-colors hover:bg-slate-200">
-        <div className="flex items-center gap-2">
-          <Logo />
-          {open && (
-            <motion.div
-              layout
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.125 }}
-            >
-              <span className="block text-sm font-semibold">Giovanni Maya</span>
-              <span className="block text-sm text-slate-500">Admin</span>
-            </motion.div>
-          )}
+      <div className="flex cursor-pointer items-center justify-between">
+        <div className="flex flex-col pl-3">
+          <span className="block text-sm font-semibold">Giovanni Maya</span>
+          <span className="block text-sm text-slate-500">Admin</span>
         </div>
-        {open && <FiChevronDown className="mr-2" />}
       </div>
     </div>
   );
 };
-
-const Logo = () => {
-  return (
-    <motion.div
-      layout
-      className="grid size-10 shrink-0 place-content-center rounded-full bg-indigo-500"
-    ></motion.div>
-  );
-};
-
 
 const ToggleClose = ({ open, setOpen }: any) => {
   return (

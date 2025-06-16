@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import Form from "./form";
+import Form from "./form/form";
 
 const modalVariants = {
   hidden: {
